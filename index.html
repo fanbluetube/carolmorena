@@ -352,7 +352,7 @@
                 <h2 class="fs-6 fw-bold">
                     Assinaturas
                 </h2>
-                <button type="button" class="btn btn-danger w-100 rounded-pill d-flex justify-content-between px-4 py-2" data-bs-toggle="modal" data-bs-target="#modal1">
+                <button type="button" class="btn btn-danger w-100 rounded-pill d-flex justify-content-between px-4 py-2" onclick="pixController.openModal(40.00, 'https://seusite.com/obrigado-basico', 'Plano Básico')">
                     <span>
                         1 mês
                     </span>
@@ -366,7 +366,7 @@
                     Promoções
                 </h2>
                 <button type="button"
-                    class="btn btn-danger w-100 rounded-pill d-flex justify-content-between px-4 py-2" data-bs-toggle="modal" data-bs-target="#modal2">
+                    class="btn btn-danger w-100 rounded-pill d-flex justify-content-between px-4 py-2" onclick="pixController.openModal(114.00, 'https://seusite.com/obrigado-pro', 'Plano Intermediário')">
                     <span>
                         3 meses (5 off)
                     </span>
@@ -374,8 +374,7 @@
                         R$ 114,00
                     </span>
                 </button>
-                <button type="button"
-                    class="btn btn-danger w-100 rounded-pill d-flex justify-content-between px-4 py-2 mt-2" data-bs-toggle="modal" data-bs-target="#modal3">
+                <button type="button" class="btn btn-danger w-100 rounded-pill d-flex justify-content-between px-4 py-2 mt-2" onclick="pixController.openModal(228.00, 'https://seusite.com/obrigado-vip', 'Plano Premium')">
                     <span>
                         6 meses (5 off)
                     </span>
@@ -490,109 +489,67 @@
         </div>
     </div>
 
-    <!-- Modal botão 1 -->
-    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1" aria-hidden="true">
+    <!-- MODAL DE PIX -->
+    <div class="modal fade" id="pixModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modal1">Escolha a forma de pagamento</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content text-center shadow-lg border-0 rounded-4">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="pixController.reset()"></button>
                 </div>
-                <div class="modal-body">
-                    <button onclick="window.location.href='https://www.google.com';" type="button" class="btn btn-danger w-100 rounded-pill d-flex justify-content-center align-items-center gap-1 px-4 py-2">
-                        PIX
-                        <svg width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path fill="#ffffff" d="M306.4 356.5C311.8 351.1 321.1 351.1 326.5 356.5L403.5 433.5C417.7 447.7 436.6 455.5 456.6 455.5L471.7 455.5L374.6 552.6C344.3 582.1 295.1 582.1 264.8 552.6L167.3 455.2L176.6 455.2C196.6 455.2 215.5 447.4 229.7 433.2L306.4 356.5zM326.5 282.9C320.1 288.4 311.9 288.5 306.4 282.9L229.7 206.2C215.5 191.1 196.6 184.2 176.6 184.2L167.3 184.2L264.7 86.8C295.1 56.5 344.3 56.5 374.6 86.8L471.8 183.9L456.6 183.9C436.6 183.9 417.7 191.7 403.5 205.9L326.5 282.9zM176.6 206.7C190.4 206.7 203.1 212.3 213.7 222.1L290.4 298.8C297.6 305.1 307 309.6 316.5 309.6C325.9 309.6 335.3 305.1 342.5 298.8L419.5 221.8C429.3 212.1 442.8 206.5 456.6 206.5L494.3 206.5L552.6 264.8C582.9 295.1 582.9 344.3 552.6 374.6L494.3 432.9L456.6 432.9C442.8 432.9 429.3 427.3 419.5 417.5L342.5 340.5C328.6 326.6 304.3 326.6 290.4 340.6L213.7 417.2C203.1 427 190.4 432.6 176.6 432.6L144.8 432.6L86.8 374.6C56.5 344.3 56.5 295.1 86.8 264.8L144.8 206.7L176.6 206.7z"/>
-                        </svg>
-                    </button>
+                <div class="modal-body p-4 pt-0">
+                    
+                    <!-- Loading -->
+                    <div id="state-loading" class="fade-in py-4">
+                        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
+                        <h5 class="fw-bold text-dark">Gerando Cobrança Pix...</h5>
+                        <p class="text-muted small">Conectando à TriboPay</p>
+                    </div>
 
-                    <button onclick="window.location.href='https://www.google.com';" type="button" class="btn btn-outline-danger w-100 rounded-pill d-flex justify-content-center align-items-center gap-1 px-4 py-2 mt-3">
-                        Cartão de Crédito
-                        <svg width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path fill="#229ed9" d="M64 192L64 224L576 224L576 192C576 156.7 547.3 128 512 128L128 128C92.7 128 64 156.7 64 192zM64 272L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 272L64 272zM128 424C128 410.7 138.7 400 152 400L200 400C213.3 400 224 410.7 224 424C224 437.3 213.3 448 200 448L152 448C138.7 448 128 437.3 128 424zM272 424C272 410.7 282.7 400 296 400L360 400C373.3 400 384 410.7 384 424C384 437.3 373.3 448 360 448L296 448C282.7 448 272 437.3 272 424z"/>
-                        </svg>
-                    </button>
+                    <!-- Pendente -->
+                    <div id="state-pending" class="d-none fade-in">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="badge bg-danger rounded-pill px-3">Expira em <span id="pix-timer">10:00</span></span>
+                            <span class="fw-bold text-primary">R$ <span id="display-price">0,00</span></span>
+                        </div>
+                        <p class="text-muted mb-2 small">Abra seu app de banco e escaneie:</p>
+                        <div class="bg-light p-3 rounded-3 border mx-auto mb-3" style="max-width: 240px;">
+                            <img id="qr-image" src="" alt="QR Code Pix" class="img-fluid rounded">
+                        </div>
+                        <div class="input-group mb-2">
+                            <input type="text" id="pix-code-input" class="form-control font-monospace text-center bg-light" readonly>
+                            <button class="btn btn-outline-primary" type="button" id="btn-copy">
+                                <i class="bi bi-clipboard"></i> Copiar
+                            </button>
+                        </div>
+                        <div class="alert alert-info py-2 small d-flex align-items-center justify-content-center gap-2 mt-3">
+                            <div class="spinner-grow spinner-grow-sm text-info" role="status"></div>
+                            Aguardando confirmação automática...
+                        </div>
+                    </div>
 
-                    <button onclick="window.location.href='https://www.google.com';" type="button" class="btn btn-danger w-100 rounded-pill d-flex justify-content-center align-items-center gap-1 px-4 py-2 mt-3 d-none">
-                        Bitcoin
-                        <svg width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path fill="#ffffff" d="M72 320C72 183 183 72 320 72C457 72 568 183 568 320C568 457 457 568 320 568C183 568 72 457 72 320zM426.3 284.7C431.2 251.7 406.1 234 371.7 222.1L382.8 177.4L355.6 170.6L344.7 214.1C337.5 212.3 330.2 210.6 322.9 209L333.8 165.2L306.6 158.4L295.4 203.1C289.5 201.8 283.7 200.4 278 199L278 198.9L240.5 189.5L233.3 218.6C233.3 218.6 253.5 223.2 253.1 223.5C264.1 226.3 266.1 233.5 265.8 239.3L253.1 290.2C253.9 290.4 254.8 290.7 255.9 291.1C255 290.9 254 290.6 253 290.4L235.2 361.7C233.9 365 230.4 370.1 222.7 368.2C223 368.6 202.9 363.3 202.9 363.3L189.4 394.4L224.8 403.2C231.4 404.9 237.8 406.6 244.2 408.2L232.9 453.4L260.1 460.2L271.3 415.5C278.5 417.5 285.7 419.3 293 421.1L281.9 465.6L309.1 472.4L320.4 427.3C366.8 436.1 401.7 432.5 416.4 390.6C428.2 356.8 415.8 337.3 391.4 324.6C409.2 320.5 422.6 308.8 426.1 284.7zM364.1 371.9C355.7 405.7 298.8 387.4 280.3 382.8L295.2 322.9C313.6 327.5 372.8 336.6 364 371.9zM372.5 284.2C364.8 314.9 317.5 299.3 302.1 295.5L315.6 241.2C331 245 380.4 252.2 372.4 284.2z"/>
-                        </svg>
-                    </button>
+                    <!-- Sucesso -->
+                    <div id="state-success" class="d-none fade-in py-4">
+                        <div class="mb-3 text-success"><i class="bi bi-check-circle-fill" style="font-size: 4rem;"></i></div>
+                        <h4 class="fw-bold text-success">Pagamento Aprovado!</h4>
+                        <p class="text-muted">Redirecionando...</p>
+                    </div>
+
+                    <!-- Falha -->
+                    <div id="state-failure" class="d-none fade-in py-4">
+                        <div class="mb-3 text-danger"><i class="bi bi-x-circle-fill" style="font-size: 4rem;"></i></div>
+                        <h5 class="fw-bold text-dark" id="failure-msg">O tempo expirou</h5>
+                        <p class="text-muted small">Tente gerar o código novamente.</p>
+                        <button class="btn btn-primary w-100 rounded-pill" onclick="location.reload()">Tentar Novamente</button>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal botão 2 -->
-    <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modal2">Escolha a forma de pagamento</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <button onclick="window.location.href='https://www.google.com';" type="button" class="btn btn-danger w-100 rounded-pill d-flex justify-content-center align-items-center gap-1 px-4 py-2">
-                        PIX
-                        <svg width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path fill="#ffffff" d="M306.4 356.5C311.8 351.1 321.1 351.1 326.5 356.5L403.5 433.5C417.7 447.7 436.6 455.5 456.6 455.5L471.7 455.5L374.6 552.6C344.3 582.1 295.1 582.1 264.8 552.6L167.3 455.2L176.6 455.2C196.6 455.2 215.5 447.4 229.7 433.2L306.4 356.5zM326.5 282.9C320.1 288.4 311.9 288.5 306.4 282.9L229.7 206.2C215.5 191.1 196.6 184.2 176.6 184.2L167.3 184.2L264.7 86.8C295.1 56.5 344.3 56.5 374.6 86.8L471.8 183.9L456.6 183.9C436.6 183.9 417.7 191.7 403.5 205.9L326.5 282.9zM176.6 206.7C190.4 206.7 203.1 212.3 213.7 222.1L290.4 298.8C297.6 305.1 307 309.6 316.5 309.6C325.9 309.6 335.3 305.1 342.5 298.8L419.5 221.8C429.3 212.1 442.8 206.5 456.6 206.5L494.3 206.5L552.6 264.8C582.9 295.1 582.9 344.3 552.6 374.6L494.3 432.9L456.6 432.9C442.8 432.9 429.3 427.3 419.5 417.5L342.5 340.5C328.6 326.6 304.3 326.6 290.4 340.6L213.7 417.2C203.1 427 190.4 432.6 176.6 432.6L144.8 432.6L86.8 374.6C56.5 344.3 56.5 295.1 86.8 264.8L144.8 206.7L176.6 206.7z"/>
-                        </svg>
-                    </button>
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-                    <button onclick="window.location.href='https://www.google.com';" type="button" class="btn btn-outline-danger w-100 rounded-pill d-flex justify-content-center align-items-center gap-1 px-4 py-2 mt-3">
-                        Cartão de Crédito
-                        <svg width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path fill="#229ed9" d="M64 192L64 224L576 224L576 192C576 156.7 547.3 128 512 128L128 128C92.7 128 64 156.7 64 192zM64 272L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 272L64 272zM128 424C128 410.7 138.7 400 152 400L200 400C213.3 400 224 410.7 224 424C224 437.3 213.3 448 200 448L152 448C138.7 448 128 437.3 128 424zM272 424C272 410.7 282.7 400 296 400L360 400C373.3 400 384 410.7 384 424C384 437.3 373.3 448 360 448L296 448C282.7 448 272 437.3 272 424z"/>
-                        </svg>
-                    </button>
-
-                    <button onclick="window.location.href='https://www.google.com';" type="button" class="btn btn-danger w-100 rounded-pill d-flex justify-content-center align-items-center gap-1 px-4 py-2 mt-3 d-none">
-                        Bitcoin
-                        <svg width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path fill="#ffffff" d="M72 320C72 183 183 72 320 72C457 72 568 183 568 320C568 457 457 568 320 568C183 568 72 457 72 320zM426.3 284.7C431.2 251.7 406.1 234 371.7 222.1L382.8 177.4L355.6 170.6L344.7 214.1C337.5 212.3 330.2 210.6 322.9 209L333.8 165.2L306.6 158.4L295.4 203.1C289.5 201.8 283.7 200.4 278 199L278 198.9L240.5 189.5L233.3 218.6C233.3 218.6 253.5 223.2 253.1 223.5C264.1 226.3 266.1 233.5 265.8 239.3L253.1 290.2C253.9 290.4 254.8 290.7 255.9 291.1C255 290.9 254 290.6 253 290.4L235.2 361.7C233.9 365 230.4 370.1 222.7 368.2C223 368.6 202.9 363.3 202.9 363.3L189.4 394.4L224.8 403.2C231.4 404.9 237.8 406.6 244.2 408.2L232.9 453.4L260.1 460.2L271.3 415.5C278.5 417.5 285.7 419.3 293 421.1L281.9 465.6L309.1 472.4L320.4 427.3C366.8 436.1 401.7 432.5 416.4 390.6C428.2 356.8 415.8 337.3 391.4 324.6C409.2 320.5 422.6 308.8 426.1 284.7zM364.1 371.9C355.7 405.7 298.8 387.4 280.3 382.8L295.2 322.9C313.6 327.5 372.8 336.6 364 371.9zM372.5 284.2C364.8 314.9 317.5 299.3 302.1 295.5L315.6 241.2C331 245 380.4 252.2 372.4 284.2z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal botão 3 -->
-    <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modal3">Escolha a forma de pagamento</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <button onclick="window.location.href='https://www.google.com';" type="button" class="btn btn-danger w-100 rounded-pill d-flex justify-content-center align-items-center gap-1 px-4 py-2">
-                        PIX
-                        <svg width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path fill="#ffffff" d="M306.4 356.5C311.8 351.1 321.1 351.1 326.5 356.5L403.5 433.5C417.7 447.7 436.6 455.5 456.6 455.5L471.7 455.5L374.6 552.6C344.3 582.1 295.1 582.1 264.8 552.6L167.3 455.2L176.6 455.2C196.6 455.2 215.5 447.4 229.7 433.2L306.4 356.5zM326.5 282.9C320.1 288.4 311.9 288.5 306.4 282.9L229.7 206.2C215.5 191.1 196.6 184.2 176.6 184.2L167.3 184.2L264.7 86.8C295.1 56.5 344.3 56.5 374.6 86.8L471.8 183.9L456.6 183.9C436.6 183.9 417.7 191.7 403.5 205.9L326.5 282.9zM176.6 206.7C190.4 206.7 203.1 212.3 213.7 222.1L290.4 298.8C297.6 305.1 307 309.6 316.5 309.6C325.9 309.6 335.3 305.1 342.5 298.8L419.5 221.8C429.3 212.1 442.8 206.5 456.6 206.5L494.3 206.5L552.6 264.8C582.9 295.1 582.9 344.3 552.6 374.6L494.3 432.9L456.6 432.9C442.8 432.9 429.3 427.3 419.5 417.5L342.5 340.5C328.6 326.6 304.3 326.6 290.4 340.6L213.7 417.2C203.1 427 190.4 432.6 176.6 432.6L144.8 432.6L86.8 374.6C56.5 344.3 56.5 295.1 86.8 264.8L144.8 206.7L176.6 206.7z"/>
-                        </svg>
-                    </button>
-
-                    <button onclick="window.location.href='https://www.google.com';" type="button" class="btn btn-outline-danger w-100 rounded-pill d-flex justify-content-center align-items-center gap-1 px-4 py-2 mt-3">
-                        Cartão de Crédito
-                        <svg width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path fill="#229ed9" d="M64 192L64 224L576 224L576 192C576 156.7 547.3 128 512 128L128 128C92.7 128 64 156.7 64 192zM64 272L64 448C64 483.3 92.7 512 128 512L512 512C547.3 512 576 483.3 576 448L576 272L64 272zM128 424C128 410.7 138.7 400 152 400L200 400C213.3 400 224 410.7 224 424C224 437.3 213.3 448 200 448L152 448C138.7 448 128 437.3 128 424zM272 424C272 410.7 282.7 400 296 400L360 400C373.3 400 384 410.7 384 424C384 437.3 373.3 448 360 448L296 448C282.7 448 272 437.3 272 424z"/>
-                        </svg>
-                    </button>
-
-                    <button onclick="window.location.href='https://www.google.com';" type="button" class="btn btn-danger w-100 rounded-pill d-flex justify-content-center align-items-center gap-1 px-4 py-2 mt-3 d-none">
-                        Bitcoin
-                        <svg width="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                            <path fill="#ffffff" d="M72 320C72 183 183 72 320 72C457 72 568 183 568 320C568 457 457 568 320 568C183 568 72 457 72 320zM426.3 284.7C431.2 251.7 406.1 234 371.7 222.1L382.8 177.4L355.6 170.6L344.7 214.1C337.5 212.3 330.2 210.6 322.9 209L333.8 165.2L306.6 158.4L295.4 203.1C289.5 201.8 283.7 200.4 278 199L278 198.9L240.5 189.5L233.3 218.6C233.3 218.6 253.5 223.2 253.1 223.5C264.1 226.3 266.1 233.5 265.8 239.3L253.1 290.2C253.9 290.4 254.8 290.7 255.9 291.1C255 290.9 254 290.6 253 290.4L235.2 361.7C233.9 365 230.4 370.1 222.7 368.2C223 368.6 202.9 363.3 202.9 363.3L189.4 394.4L224.8 403.2C231.4 404.9 237.8 406.6 244.2 408.2L232.9 453.4L260.1 460.2L271.3 415.5C278.5 417.5 285.7 419.3 293 421.1L281.9 465.6L309.1 472.4L320.4 427.3C366.8 436.1 401.7 432.5 416.4 390.6C428.2 356.8 415.8 337.3 391.4 324.6C409.2 320.5 422.6 308.8 426.1 284.7zM364.1 371.9C355.7 405.7 298.8 387.4 280.3 382.8L295.2 322.9C313.6 327.5 372.8 336.6 364 371.9zM372.5 284.2C364.8 314.9 317.5 299.3 302.1 295.5L315.6 241.2C331 245 380.4 252.2 372.4 284.2z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
         // Seleciona todos os elementos que podem abrir/fechar o collapse
         const collapseElementList = document.querySelectorAll('[data-bs-toggle="collapse"]');
@@ -614,6 +571,225 @@
                 });
             }
         });
+    </script>
+
+    <!-- Lógica Real de Integração -->
+    <script>
+        // ⚠️ IMPORTANTE: Em produção, nunca exponha seu token no frontend. Use um backend proxy.
+        const TRIBO_API_TOKEN = '9KmaMgRE2IIAjU74pWR49Xmh4JQj6njOt2gx2M6ohCfgIoMZWgXnVwHFblG3';
+
+        class PixPaymentController {
+            constructor() {
+                this.modalElement = document.getElementById('pixModal');
+                this.bsModal = new bootstrap.Modal(this.modalElement);
+                this.ui = {
+                    loading: document.getElementById('state-loading'),
+                    pending: document.getElementById('state-pending'),
+                    success: document.getElementById('state-success'),
+                    failure: document.getElementById('state-failure'),
+                    failureMsg: document.getElementById('failure-msg'),
+                    price: document.getElementById('display-price'),
+                    qrImg: document.getElementById('qr-image'),
+                    input: document.getElementById('pix-code-input'),
+                    timer: document.getElementById('pix-timer'),
+                    copyBtn: document.getElementById('btn-copy')
+                };
+                this.state = {
+                    redirectUrl: '',
+                    currentHash: null,
+                    countdownInterval: null,
+                    checkInterval: null
+                };
+                this.initListeners();
+            }
+
+            initListeners() {
+                this.ui.copyBtn.addEventListener('click', () => this.copyToClipboard());
+                this.modalElement.addEventListener('hidden.bs.modal', () => this.reset());
+            }
+
+            // Inicia o processo de pagamento real
+            openModal(price, redirectUrl, productTitle = 'Acesso Premium') {
+                this.state.redirectUrl = redirectUrl;
+                this.reset();
+                this.bsModal.show();
+                this.showView('loading');
+
+                this.generatePixAPI(price, productTitle)
+                    .then(data => this.renderPending(data, price))
+                    .catch(err => {
+                        console.error("Erro Fatal:", err);
+                        // Mensagem amigável baseada no erro
+                        const msg = err.message.includes("5 reais") ? "Valor inválido para transação" : "Erro na Comunicação com o Banco";
+                        this.ui.failureMsg.textContent = msg;
+                        this.showView('failure');
+                    });
+            }
+
+            /**
+             * Chama a API da TriboPay para gerar a cobrança
+             */
+            async generatePixAPI(price, productTitle) {
+                console.log("API: Iniciando geração de PIX...");
+                
+                // CORREÇÃO: Converter preço (Reais) para Centavos (Inteiro)
+                // Ex: 19.90 * 100 = 1990 centavos.
+                const amountInCents = Math.round(price * 100); 
+
+                const url = `https://api.tribopay.com.br/api/public/v1/transactions?api_token=${TRIBO_API_TOKEN}`;
+                
+                const uniqueOfferHash = `offer_${Date.now()}`;
+                const uniqueProductHash = `prod_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+
+                // Dados do cliente HARDCODED conforme solicitado.
+                // Em produção, isso deve vir de um formulário de checkout.
+                const options = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        "amount": amountInCents, // Valor enviado em centavos
+                        "offer_hash": uniqueOfferHash,
+                        "payment_method": "pix",
+                        "installments": 1, 
+                        "customer": {
+                            "name": "Cliente Demo", // Alterado para genérico
+                            "email": "cliente@teste.com",
+                            "phone_number": "11999999999",
+                            "document": "09115751031" // CPF genérico válido necessário para PIX
+                        },
+                        "cart": [{
+                            "product_hash": uniqueProductHash,
+                            "title": productTitle,
+                            "price": amountInCents, // Valor enviado em centavos
+                            "quantity": 1,
+                            "operation_type": 1,
+                            "tangible": false
+                        }]
+                    })
+                };
+
+                const response = await fetch(url, options);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || `Erro na API: ${response.status}`);
+                }
+
+                // Extração segura dos dados
+                const transactionHash = data?.hash;
+                const pixCode = data?.pix?.pix_qr_code;
+
+                if (!transactionHash || !pixCode) {
+                    throw new Error('API não retornou Hash ou Código Pix.');
+                }
+                
+                // Gerador de QR externo (conforme sua lógica original)
+                const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(pixCode)}`;
+                
+                return { hash: transactionHash, pixCode, qrCodeUrl };
+            }
+
+            renderPending(data, price) {
+                this.state.currentHash = data.hash;
+                this.ui.price.textContent = price.toFixed(2).replace('.', ',');
+                this.ui.qrImg.src = data.qrCodeUrl;
+                this.ui.input.value = data.pixCode;
+                
+                this.showView('pending');
+                this.startTimer(300); // 5 minutos
+                this.startPaymentMonitoring(data.hash);
+            }
+
+            /**
+             * Monitora o status via API (Polling)
+             */
+            startPaymentMonitoring(hash) {
+                if (this.state.checkInterval) clearInterval(this.state.checkInterval);
+
+                console.log(`Iniciando monitoramento para Hash: ${hash}`);
+                
+                this.state.checkInterval = setInterval(async () => {
+                    try {
+                        const status = await this.checkPaymentStatusAPI(hash);
+                        if (status === 'PAID') {
+                            this.handleSuccess();
+                        }
+                    } catch (e) {
+                        console.warn("Falha temporária na verificação de status", e);
+                    }
+                }, 5000); // Verifica a cada 5 segundos (otimizado para não bloquear API)
+            }
+
+            async checkPaymentStatusAPI(hash) {
+                const url = `https://api.tribopay.com.br/api/public/v1/transactions/${hash}?api_token=${TRIBO_API_TOKEN}`;
+                const response = await fetch(url, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+                const data = await response.json();
+
+                if (!response.ok) return 'PENDING';
+                
+                // Normaliza status: 'paid' (da API) vira 'PAID'
+                const currentStatus = data?.payment_status;
+                return currentStatus === 'paid' ? 'PAID' : 'PENDING';
+            }
+
+            handleSuccess() {
+                this.resetIntervals();
+                this.showView('success');
+                setTimeout(() => {
+                    window.location.href = this.state.redirectUrl;
+                }, 3000);
+            }
+
+            // Utilitários
+            startTimer(duration) {
+                let timer = duration;
+                this.state.countdownInterval = setInterval(() => {
+                    const minutes = String(Math.floor(timer / 60)).padStart(2, '0');
+                    const seconds = String(timer % 60).padStart(2, '0');
+                    this.ui.timer.textContent = `${minutes}:${seconds}`;
+                    if (--timer < 0) {
+                        this.resetIntervals();
+                        this.showView('failure');
+                    }
+                }, 1000);
+            }
+
+            copyToClipboard() {
+                this.ui.input.select();
+                // Tenta API moderna, fallback para execCommand
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(this.ui.input.value);
+                } else {
+                    document.execCommand('copy');
+                }
+                
+                const originalText = this.ui.copyBtn.innerHTML;
+                this.ui.copyBtn.innerHTML = '<i class="bi bi-check-lg"></i> Copiado!';
+                this.ui.copyBtn.classList.replace('btn-outline-primary', 'btn-success');
+                setTimeout(() => {
+                    this.ui.copyBtn.innerHTML = originalText;
+                    this.ui.copyBtn.classList.replace('btn-success', 'btn-outline-primary');
+                }, 2000);
+            }
+
+            showView(viewName) {
+                ['loading', 'pending', 'success', 'failure'].forEach(v => this.ui[v].classList.add('d-none'));
+                this.ui[viewName].classList.remove('d-none');
+            }
+
+            reset() {
+                this.resetIntervals();
+                this.state.currentHash = null;
+                this.ui.timer.textContent = "05:00";
+            }
+
+            resetIntervals() {
+                clearInterval(this.state.countdownInterval);
+                clearInterval(this.state.checkInterval);
+            }
+        }
+
+        const pixController = new PixPaymentController();
     </script>
 </body>
 
